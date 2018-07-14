@@ -30,6 +30,7 @@ public class TextBuilder {
     // The original text
     private String originalText;
 
+    // The Minecraft-based chat style
     private ChatStyle style;
 
     /**
