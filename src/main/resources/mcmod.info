@@ -1,0 +1,16 @@
+[
+{
+  "modid": "examplemod",
+  "name": "Example Mod",
+  "description": "A mod which does something cool.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.github.com/ReflxctionDev/ExampleMod",
+  "updateUrl": "",
+  "authorList": ["Reflxction"],
+  "credits": "Reflxction",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
