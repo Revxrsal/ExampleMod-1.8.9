@@ -41,4 +41,7 @@ public class Reference {
     // Server proxy handler
     public static final String SERVER_PROXY = "net.reflxction.example.proxy.ServerProxy";
 
+    // The Git Repository name
+    public static final String REPOSITORY_NAME = "ExampleMod";
+
 }

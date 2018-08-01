@@ -19,6 +19,8 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.reflxction.example.ExampleMod;
+import net.reflxction.example.proxy.ClientProxy;
+import net.reflxction.example.utils.Multithreading;
 import net.reflxction.example.utils.message.SimpleSender;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class ExampleCommand implements ICommand {
      */
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/example toggle";
+        return "/example <toggle / update>";
     }
 
     @Override
@@ -72,6 +74,22 @@ public class ExampleCommand implements ICommand {
                         ExampleMod.getSettings().setEnabled(!ExampleMod.getSettings().isEnabled());
                         SimpleSender.send(ExampleMod.getSettings().isEnabled() ? "&aExampleMod has been enabled" : "&cExampleMod has been disabled");
                         break;
+                    case "update":
+                        if (ClientProxy.getChecker().isUpdateAvailable()) {
+                            new Multithreading<>().schedule((foo) -> {
+                                if (ExampleMod.getUpdateManager().updateMod()) {
+                                    SimpleSender.send("&aSuccessfully updated the mod! Restart your game to see changes.");
+                                } else {
+                                    SimpleSender.send("&cFailed to update mod! To avoid any issues, delete the mod jar and install it manually again.");
+                                }
+                            });
+                        } else {
+                            SimpleSender.send("&cNo updates found. You're up to date!");
+                        }
+                    case "check":
+                        ExampleMod.getSettings().setSendNotification(!ExampleMod.getSettings().sendNotification());
+                        SimpleSender.send(ExampleMod.getSettings().sendNotification() ? "&aYou will be notified on updates" : "&cYou will no longer be notified on updates");
+                        break;
                     default:
                         SimpleSender.send("&cIncorrect command usage. Try " + getCommandUsage(sender));
                         break;
@@ -95,6 +113,7 @@ public class ExampleCommand implements ICommand {
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
         List<String> tab = new ArrayList<>();
         tab.add("toggle");
+        tab.add("update");
         return tab;
     }
 
@@ -113,7 +132,6 @@ public class ExampleCommand implements ICommand {
     public int compareTo(ICommand o) {
         return 0;
     }
-
 
 
 }

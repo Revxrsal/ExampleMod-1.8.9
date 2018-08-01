@@ -25,9 +25,13 @@ public class Settings {
     // Whether the mod is enabled or not
     private boolean enabled;
 
+    // Whether the mod should send a notification to the player if an update is available
+    private boolean sendUpdateNotifications;
+
     // Assign all variables
     public Settings() {
         enabled = ExampleMod.getConfig().get("Enabled", "Enabled", true).getBoolean();
+        sendUpdateNotifications = ExampleMod.getConfig().get("Settings", "SendUpdate", true).getBoolean();
     }
 
     /**
@@ -47,6 +51,26 @@ public class Settings {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
         ExampleMod.getConfig().get("Enabled", "Enabled", true).set(enabled);
+        ExampleMod.getConfig().save();
+    }
+
+    /**
+     * Whether the mod should send notifications if an update is available
+     *
+     * @return ^
+     */
+    public boolean sendNotification() {
+        return sendUpdateNotifications;
+    }
+
+    /**
+     * Sets whether the mod should notifications if an update is available
+     *
+     * @param flag Boolean to set
+     */
+    public void setSendNotification(boolean flag) {
+        this.sendUpdateNotifications = flag;
+        ExampleMod.getConfig().get("Settings", "SendUpdates", true).set(flag);
         ExampleMod.getConfig().save();
     }
 }

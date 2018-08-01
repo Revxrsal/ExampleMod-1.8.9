@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.reflxction.example.proxy.IProxy;
 import net.reflxction.example.settings.Settings;
+import net.reflxction.example.updater.UpdateManager;
 import net.reflxction.example.utils.Reference;
 
 import java.io.File;
@@ -56,12 +57,16 @@ public class ExampleMod {
     )
     private static IProxy proxy;
 
+    // The update manager
+    private static UpdateManager updateManager;
+
     /*
      * Initialize variables here
      */
     static {
         config = new Configuration(new File("config/example-config.cfg"));
         settings = new Settings();
+        updateManager = new UpdateManager(true);
     }
 
     /**
@@ -115,6 +120,15 @@ public class ExampleMod {
      */
     public static Settings getSettings() {
         return settings;
+    }
+
+    /**
+     * The mod update manager
+     *
+     * @return An instance of the mod update manager
+     */
+    public static UpdateManager getUpdateManager() {
+        return updateManager;
     }
 
 }
