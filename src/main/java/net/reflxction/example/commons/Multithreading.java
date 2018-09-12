@@ -23,10 +23,16 @@ import java.util.concurrent.Executors;
  */
 public class Multithreading {
 
-    private static final ExecutorService SERVICE = Executors.newFixedThreadPool(5, Thread::new);
+    // The executor service, which uses a thread pool of 50 threads
+    private static final ExecutorService SERVICE = Executors.newFixedThreadPool(50, Thread::new);
 
-    public static void runAsync(Runnable runnable) {
-        Multithreading.SERVICE.execute(runnable);
+    /**
+     * Runs a task asynchronously on the thread pool
+     *
+     * @param task Task to run
+     */
+    public static void runAsync(Runnable task) {
+        Multithreading.SERVICE.execute(task);
     }
 
 }
