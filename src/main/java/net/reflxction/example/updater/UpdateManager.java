@@ -16,7 +16,7 @@
 package net.reflxction.example.updater;
 
 import net.minecraft.client.Minecraft;
-import net.reflxction.example.proxy.ClientProxy;
+import net.reflxction.example.ExampleMod;
 import net.reflxction.example.utils.Reference;
 import org.apache.commons.io.FileUtils;
 
