@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.reflxction.example.ExampleMod;
 import net.reflxction.example.commons.Settings;
-import net.reflxction.example.proxy.ClientProxy;
+import net.reflxction.example.utils.Reference;
 import net.reflxction.example.utils.SimpleSender;
 
 import java.util.Timer;
@@ -40,7 +40,7 @@ public class NotificationSender {
                 @Override
                 public void run() {
                     if (ExampleMod.INSTANCE.getChecker().isUpdateAvailable()) {
-                        SimpleSender.send("&eAn update is available for ExampleMod! To update, do &a/examplemod update&e.");
+                        SimpleSender.send("&eAn update is available for &b" + Reference.NAME + "&e! To update, do &a/examplemod update&e.");
                         sent = true;
                     }
                 }
