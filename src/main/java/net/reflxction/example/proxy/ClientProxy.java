@@ -23,7 +23,6 @@ import net.reflxction.example.commands.ExampleCommand;
 import net.reflxction.example.commons.Multithreading;
 import net.reflxction.example.commons.Settings;
 import net.reflxction.example.updater.NotificationSender;
-import net.reflxction.example.updater.VersionChecker;
 
 public class ClientProxy implements IProxy {
 

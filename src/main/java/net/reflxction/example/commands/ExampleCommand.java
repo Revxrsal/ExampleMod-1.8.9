@@ -21,10 +21,8 @@ import net.minecraft.util.BlockPos;
 import net.reflxction.example.ExampleMod;
 import net.reflxction.example.commons.Multithreading;
 import net.reflxction.example.commons.Settings;
-import net.reflxction.example.proxy.ClientProxy;
 import net.reflxction.example.utils.SimpleSender;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
