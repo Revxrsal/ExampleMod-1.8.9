@@ -18,8 +18,9 @@ package net.reflxction.example.updater;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.reflxction.example.ExampleMod;
+import net.reflxction.example.commons.Settings;
 import net.reflxction.example.proxy.ClientProxy;
-import net.reflxction.example.utils.message.SimpleSender;
+import net.reflxction.example.utils.SimpleSender;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,11 +35,11 @@ public class NotificationSender {
 
     @SubscribeEvent
     public void onFMLNetworkClientConnectedToServer(ClientConnectedToServerEvent event) {
-        if (!sent && ExampleMod.getSettings().sendNotification()) {
+        if (!sent && Settings.SEND_UPDATES.get()) {
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (ClientProxy.getChecker().isUpdateAvailable()) {
+                    if (ExampleMod.INSTANCE.getChecker().isUpdateAvailable()) {
                         SimpleSender.send("&eAn update is available for ExampleMod! To update, do &a/examplemod update&e.");
                         sent = true;
                     }

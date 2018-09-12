@@ -60,6 +60,7 @@ shadowJar {
     classifier '' // Replace the default JAR
 }
 
+//noinspection GroovyMissingReturnStatement
 reobf {
     shadowJar {} // Reobfuscate the shadowed JAR
 }

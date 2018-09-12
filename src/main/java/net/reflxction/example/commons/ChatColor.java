@@ -1,4 +1,4 @@
-package net.reflxction.example.utils;
+package net.reflxction.example.commons;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.Validate;

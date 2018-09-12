@@ -19,11 +19,14 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.reflxction.example.ExampleMod;
+import net.reflxction.example.commons.Multithreading;
+import net.reflxction.example.commons.Settings;
 import net.reflxction.example.proxy.ClientProxy;
-import net.reflxction.example.utils.Multithreading;
-import net.reflxction.example.utils.message.SimpleSender;
+import net.reflxction.example.utils.SimpleSender;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,14 +49,12 @@ public class ExampleCommand implements ICommand {
      */
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/example <toggle / update>";
+        return "/example <toggle / check / update>";
     }
 
     @Override
     public List<String> getCommandAliases() {
-        List<String> aliases = new ArrayList<>();
-        aliases.add("ex");
-        return aliases;
+        return Collections.singletonList("ex");
     }
 
     /**
@@ -71,13 +72,13 @@ public class ExampleCommand implements ICommand {
             case 1:
                 switch (args[0]) {
                     case "toggle":
-                        ExampleMod.getSettings().setEnabled(!ExampleMod.getSettings().isEnabled());
-                        SimpleSender.send(ExampleMod.getSettings().isEnabled() ? "&aExampleMod has been enabled" : "&cExampleMod has been disabled");
+                        Settings.ENABLED.set(!Settings.ENABLED.get());
+                        SimpleSender.send(Settings.ENABLED.get() ? "&aExampleMod has been enabled" : "&cExampleMod has been disabled");
                         break;
                     case "update":
-                        if (ClientProxy.getChecker().isUpdateAvailable()) {
-                            new Multithreading<>().schedule((foo) -> {
-                                if (ExampleMod.getUpdateManager().updateMod()) {
+                        if (ExampleMod.INSTANCE.getChecker().isUpdateAvailable()) {
+                            Multithreading.runAsync(() -> {
+                                if (ExampleMod.INSTANCE.getUpdateManager().updateMod()) {
                                     SimpleSender.send("&aSuccessfully updated the mod! Restart your game to see changes.");
                                 } else {
                                     SimpleSender.send("&cFailed to update mod! To avoid any issues, delete the mod jar and install it manually again.");
@@ -86,9 +87,10 @@ public class ExampleCommand implements ICommand {
                         } else {
                             SimpleSender.send("&cNo updates found. You're up to date!");
                         }
+                        break;
                     case "check":
-                        ExampleMod.getSettings().setSendNotification(!ExampleMod.getSettings().sendNotification());
-                        SimpleSender.send(ExampleMod.getSettings().sendNotification() ? "&aYou will be notified on updates" : "&cYou will no longer be notified on updates");
+                        Settings.SEND_UPDATES.set(!Settings.SEND_UPDATES.get());
+                        SimpleSender.send(Settings.SEND_UPDATES.get() ? "&aYou will be notified on updates" : "&cYou will no longer be notified on updates");
                         break;
                     default:
                         SimpleSender.send("&cIncorrect command usage. Try " + getCommandUsage(sender));
@@ -108,20 +110,16 @@ public class ExampleCommand implements ICommand {
         return true;
     }
 
-
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-        List<String> tab = new ArrayList<>();
-        tab.add("toggle");
-        tab.add("update");
-        return tab;
+        return Arrays.asList("toggle", "check", "update");
     }
 
     /**
      * Return whether the specified command parameter index is a username parameter.
      *
      * @param args  The arguments that were passed
-     * @param index Idk lul
+     * @param index Argument index to check
      */
     @Override
     public boolean isUsernameIndex(String[] args, int index) {
@@ -132,6 +130,5 @@ public class ExampleCommand implements ICommand {
     public int compareTo(ICommand o) {
         return 0;
     }
-
 
 }

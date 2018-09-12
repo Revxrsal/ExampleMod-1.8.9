@@ -15,6 +15,8 @@
  */
 package net.reflxction.example.utils;
 
+import net.reflxction.example.commons.ChatColor;
+
 /**
  * Class which contains mod information.
  */

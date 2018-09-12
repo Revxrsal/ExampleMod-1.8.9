@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.reflxction.example.utils.message;
+package net.reflxction.example.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import net.reflxction.example.utils.ChatColor;
-import net.reflxction.example.utils.Reference;
+import net.reflxction.example.commons.ChatColor;
 
 /**
  * Class which simplifies the {@link net.minecraft.entity.player.EntityPlayer#addChatMessage(IChatComponent)} method and shortens it
@@ -33,7 +32,12 @@ public class SimpleSender {
      */
     public static void send(String text) {
         if (Minecraft.getMinecraft().thePlayer == null) return; // <- For safety
-        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(Reference.PREFIX + ChatColor.format(text)));
+        StringBuilder messageBuilder = new StringBuilder();
+        for (String word : text.split(" ")) {
+            word = ChatColor.format(ChatColor.getLastColors(text) + word);
+            messageBuilder.append(word).append(" ");
+        }
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(Reference.PREFIX + ChatColor.format(messageBuilder.toString().trim())));
     }
 
 }

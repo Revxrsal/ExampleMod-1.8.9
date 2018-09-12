@@ -20,13 +20,12 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.*;
 import net.reflxction.example.ExampleMod;
 import net.reflxction.example.commands.ExampleCommand;
+import net.reflxction.example.commons.Multithreading;
+import net.reflxction.example.commons.Settings;
 import net.reflxction.example.updater.NotificationSender;
 import net.reflxction.example.updater.VersionChecker;
 
 public class ClientProxy implements IProxy {
-
-    // Instance of the version checker
-    private static VersionChecker checker = new VersionChecker();
 
     /**
      * Called before the mod is fully initialized
@@ -37,8 +36,8 @@ public class ClientProxy implements IProxy {
      */
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        if (ExampleMod.getSettings().sendNotification()) {
-            checker.updateState();
+        if (Settings.SEND_UPDATES.get()) {
+            Multithreading.runAsync(() -> ExampleMod.INSTANCE.getChecker().updateState());
         }
         ClientCommandHandler.instance.registerCommand(new ExampleCommand());
     }
@@ -64,7 +63,6 @@ public class ClientProxy implements IProxy {
      */
     @Override
     public void postInit(FMLPostInitializationEvent event) {
-
     }
 
 
@@ -80,7 +78,4 @@ public class ClientProxy implements IProxy {
         event.registerServerCommand(new ExampleCommand());
     }
 
-    public static VersionChecker getChecker() {
-        return checker;
-    }
 }

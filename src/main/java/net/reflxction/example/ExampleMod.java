@@ -22,9 +22,10 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.reflxction.example.proxy.IProxy;
-import net.reflxction.example.settings.Settings;
 import net.reflxction.example.updater.UpdateManager;
+import net.reflxction.example.updater.VersionChecker;
 import net.reflxction.example.utils.Reference;
 
 import java.io.File;
@@ -40,11 +41,10 @@ import java.io.File;
 )
 public class ExampleMod {
 
-    // Config for saving data
-    private static Configuration config;
+    public static final ExampleMod INSTANCE = new ExampleMod();
 
-    // Mod settings
-    private static Settings settings;
+    // Config for saving data
+    private Configuration config = new Configuration(new File("config" + File.separator + "example-config.cfg"));
 
     // Assign proxies of the mod
     @SidedProxy(
@@ -58,16 +58,10 @@ public class ExampleMod {
     private static IProxy proxy;
 
     // The update manager
-    private static UpdateManager updateManager;
+    private UpdateManager updateManager = new UpdateManager(true);
 
-    /*
-     * Initialize variables here
-     */
-    static {
-        config = new Configuration(new File("config/example-config.cfg"));
-        settings = new Settings();
-        updateManager = new UpdateManager(true);
-    }
+    // The version checker
+    private VersionChecker checker = new VersionChecker();
 
     /**
      * Called before the mod is fully initialized
@@ -102,6 +96,12 @@ public class ExampleMod {
      */
     @EventHandler
     public void onFMLPostInitialization(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
+    }
+
+    @EventHandler
+    public void onFMLServerStarting(FMLServerStartingEvent event) {
+        proxy.serverStarting(event);
     }
 
     /**
@@ -109,17 +109,8 @@ public class ExampleMod {
      *
      * @return The config file used to store all the mod data and HTTP caches if any
      */
-    public static Configuration getConfig() {
+    public Configuration getConfig() {
         return config;
-    }
-
-    /**
-     * Mod settings
-     *
-     * @return An instance of the mod settings
-     */
-    public static Settings getSettings() {
-        return settings;
     }
 
     /**
@@ -127,8 +118,12 @@ public class ExampleMod {
      *
      * @return An instance of the mod update manager
      */
-    public static UpdateManager getUpdateManager() {
+    public UpdateManager getUpdateManager() {
         return updateManager;
+    }
+
+    public VersionChecker getChecker() {
+        return checker;
     }
 
 }
