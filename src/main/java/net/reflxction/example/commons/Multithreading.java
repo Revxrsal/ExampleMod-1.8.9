@@ -23,10 +23,10 @@ import java.util.concurrent.Executors;
  */
 public class Multithreading {
 
-    private static final ExecutorService POOL = Executors.newFixedThreadPool(5, Thread::new);
+    private static final ExecutorService SERVICE = Executors.newFixedThreadPool(5, Thread::new);
 
     public static void runAsync(Runnable runnable) {
-        POOL.execute(runnable);
+        Multithreading.SERVICE.execute(runnable);
     }
 
 }
