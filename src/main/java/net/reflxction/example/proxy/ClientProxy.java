@@ -64,7 +64,6 @@ public class ClientProxy implements IProxy {
     public void postInit(FMLPostInitializationEvent event) {
     }
 
-
     /**
      * Called after {@link FMLServerAboutToStartEvent} and before {@link FMLServerStartedEvent}.
      * <p>
