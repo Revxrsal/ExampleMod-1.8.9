@@ -46,4 +46,7 @@ public class Reference {
     // The Git Repository name
     public static final String REPOSITORY_NAME = "ExampleMod";
 
+    // The JAR name of the mod
+    public static final String JAR_NAME = REPOSITORY_NAME + "-" + VERSION + "-SNAPSHOT";
+
 }
