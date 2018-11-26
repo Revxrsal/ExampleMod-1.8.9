@@ -71,7 +71,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.github.ReflxctionDev:SimpleJSON:1.2-SNAPSHOT'
+    compile 'com.github.ReflxctionDev:SimpleJSON:1.4-SNAPSHOT'
 }
 
 jar {
