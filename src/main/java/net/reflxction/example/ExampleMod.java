@@ -81,6 +81,7 @@ public class ExampleMod {
     public void onFMLPreInitialization(FMLPreInitializationEvent event) {
         CONFIGURATION.register(Settings.class);
         CONFIGURATION.associate();
+        Runtime.getRuntime().addShutdownHook(new Thread(CONFIGURATION::save));
         PROXY.preInit(event);
     }
 
