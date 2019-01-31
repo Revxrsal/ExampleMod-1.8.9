@@ -1,5 +1,5 @@
 /*
- * * Copyright 2018 github.com/ReflxctionDev
+ * * Copyright 2019 github.com/ReflxctionDev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public class VersionChecker {
     double getLatestVersion() {
         try {
             JsonURLReader reader = new JsonURLReader(checkerURL);
-            return reader.readContent().getDouble( "version");
+            return reader.getContentAsObject().get("version").getAsDouble();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class VersionChecker {
     /**
      * Whether an update is available or not
      *
-     * @return ^
+     * @return Whether an update for the mod is available or not
      */
     public boolean isUpdateAvailable() {
         return updateAvailable;

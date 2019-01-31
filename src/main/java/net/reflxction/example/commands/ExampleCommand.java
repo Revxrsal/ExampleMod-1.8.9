@@ -1,5 +1,5 @@
 /*
- * * Copyright 2018 github.com/ReflxctionDev
+ * * Copyright 2019 github.com/ReflxctionDev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +33,25 @@ import java.util.List;
  */
 public class ExampleCommand implements ICommand {
 
+    /**
+     * The command name, follows the slash
+     */
     public static final String COMMAND_NAME = "example";
 
+    /**
+     * The usage of this command
+     */
     private static final String COMMAND_USAGE = "/example <toggle / check / update>";
 
+    /**
+     * The aliases of the command
+     */
     private static final List<String> ALIASES = ImmutableList.of("ex");
+
+    /**
+     * The content which appears when the user TABs the command arguments
+     */
+    private static final List<String> TABS = Arrays.asList("toggle", "check", "update");
 
     /**
      * Gets the name of the command
@@ -122,7 +136,7 @@ public class ExampleCommand implements ICommand {
 
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
-        return Arrays.asList("toggle", "check", "update");
+        return TABS;
     }
 
     /**

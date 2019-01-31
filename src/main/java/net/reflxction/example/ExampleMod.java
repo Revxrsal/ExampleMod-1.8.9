@@ -1,5 +1,5 @@
 /*
- * * Copyright 2018 github.com/ReflxctionDev
+ * * Copyright 2019 github.com/ReflxctionDev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,10 @@ import java.io.File;
 public class ExampleMod {
 
     public static final ExampleMod INSTANCE = new ExampleMod();
-    // Config for saving data
+
+    /**
+     * Config for saving data
+     */
     private static final SelectableConfiguration CONFIGURATION = SelectableConfiguration.of(
             JsonFile.of(Minecraft.getMinecraft().mcDataDir + File.separator + "config" + File.separator + "example-mod.cfg"));
 
@@ -57,10 +60,14 @@ public class ExampleMod {
     )
     private static IProxy PROXY;
 
-    // The update manager
+    /**
+     * The update manager
+     */
     private UpdateManager updateManager = new UpdateManager(true);
 
-    // The version checker
+    /**
+     * The version checker
+     */
     private VersionChecker checker = new VersionChecker();
 
     /**
@@ -122,6 +129,7 @@ public class ExampleMod {
 
     /**
      * Returns the mod version checker
+     *
      * @return The mod's version checker
      */
     public VersionChecker getChecker() {
