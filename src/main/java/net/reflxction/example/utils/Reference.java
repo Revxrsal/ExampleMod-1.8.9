@@ -15,8 +15,6 @@
  */
 package net.reflxction.example.utils;
 
-import net.reflxction.example.commons.ChatColor;
-
 /**
  * Class which contains mod information.
  */
@@ -33,9 +31,6 @@ public class Reference {
 
     // Minecraft versions that the mod works on
     public static final String ACCEPTED_VERSIONS = "[1.8.9]";
-
-    // Mod prefix (for sending messages)
-    public static final String PREFIX = ChatColor.format("&2[&aExample Mod&2] ");
 
     // Client proxy handler
     public static final String CLIENT_PROXY = "net.reflxction.example.proxy.ClientProxy";

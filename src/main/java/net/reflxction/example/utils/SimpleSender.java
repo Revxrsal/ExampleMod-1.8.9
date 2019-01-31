@@ -25,6 +25,9 @@ import net.reflxction.example.commons.ChatColor;
  */
 public class SimpleSender {
 
+    // Mod prefix (for sending messages)
+    private static final String PREFIX = ChatColor.format("&2[&aExample Mod&2] ");
+
     /**
      * Sends a simple message to the client
      *
@@ -39,7 +42,7 @@ public class SimpleSender {
             word = ChatColor.format(ChatColor.getLastColors(text) + word);
             messageBuilder.append(word).append(" ");
         }
-        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(Reference.PREFIX + ChatColor.format(messageBuilder.toString().trim())));
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(PREFIX + ChatColor.format(messageBuilder.toString().trim())));
     }
 
 }
