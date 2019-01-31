@@ -15,16 +15,17 @@
  */
 package net.reflxction.example.commands;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.reflxction.example.ExampleMod;
 import net.reflxction.example.commons.Multithreading;
 import net.reflxction.example.commons.Settings;
+import net.reflxction.example.utils.Reference;
 import net.reflxction.example.utils.SimpleSender;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,12 +33,18 @@ import java.util.List;
  */
 public class ExampleCommand implements ICommand {
 
+    public static final String COMMAND_NAME = "example";
+
+    private static final String COMMAND_USAGE = "/example <toggle / check / update>";
+
+    private static final List<String> ALIASES = ImmutableList.of("ex");
+
     /**
      * Gets the name of the command
      */
     @Override
     public String getCommandName() {
-        return "example";
+        return COMMAND_NAME;
     }
 
     /**
@@ -47,12 +54,17 @@ public class ExampleCommand implements ICommand {
      */
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/example <toggle / check / update>";
+        return COMMAND_USAGE;
     }
 
+    /**
+     * Returns the list of command aliases which behave the same as {@link #getCommandName()}
+     *
+     * @return The command aliases
+     */
     @Override
     public List<String> getCommandAliases() {
-        return Collections.singletonList("ex");
+        return ALIASES;
     }
 
     /**
@@ -71,7 +83,7 @@ public class ExampleCommand implements ICommand {
                 switch (args[0]) {
                     case "toggle":
                         Settings.ENABLED.set(!Settings.ENABLED.get());
-                        SimpleSender.send(Settings.ENABLED.get() ? "&aExampleMod has been enabled" : "&cExampleMod has been disabled");
+                        SimpleSender.send(Settings.ENABLED.get() ? "&a%s has been enabled" : "&c%s has been disabled", Reference.NAME);
                         break;
                     case "update":
                         if (ExampleMod.INSTANCE.getChecker().isUpdateAvailable()) {
@@ -128,5 +140,4 @@ public class ExampleCommand implements ICommand {
     public int compareTo(ICommand o) {
         return 0;
     }
-
 }

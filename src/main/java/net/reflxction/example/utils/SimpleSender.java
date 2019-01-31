@@ -29,9 +29,11 @@ public class SimpleSender {
      * Sends a simple message to the client
      *
      * @param text Text to send, chat-formatted
+     * @param args Formatting args for the message
      */
-    public static void send(String text) {
+    public static void send(String text, String... args) {
         if (Minecraft.getMinecraft().thePlayer == null) return; // <- For safety
+        text = String.format(text, (Object[]) args);
         StringBuilder messageBuilder = new StringBuilder();
         for (String word : text.split(" ")) {
             word = ChatColor.format(ChatColor.getLastColors(text) + word);

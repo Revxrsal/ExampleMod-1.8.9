@@ -15,18 +15,18 @@
  */
 package net.reflxction.example;
 
-import net.minecraftforge.common.config.Configuration;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
+import net.reflxction.example.commons.Settings;
 import net.reflxction.example.proxy.IProxy;
 import net.reflxction.example.updater.UpdateManager;
 import net.reflxction.example.updater.VersionChecker;
 import net.reflxction.example.utils.Reference;
+import net.reflxction.simplejson.configuration.select.SelectableConfiguration;
+import net.reflxction.simplejson.json.JsonFile;
 
 import java.io.File;
 
@@ -42,9 +42,9 @@ import java.io.File;
 public class ExampleMod {
 
     public static final ExampleMod INSTANCE = new ExampleMod();
-
     // Config for saving data
-    private Configuration config = new Configuration(new File("config" + File.separator + "example-config.cfg"));
+    private static final SelectableConfiguration CONFIGURATION = SelectableConfiguration.of(
+            JsonFile.of(Minecraft.getMinecraft().mcDataDir + File.separator + "config" + File.separator + "example-mod.cfg"));
 
     // Assign proxies of the mod
     @SidedProxy(
@@ -55,7 +55,7 @@ public class ExampleMod {
             // Server side proxy
             serverSide = Reference.SERVER_PROXY
     )
-    private static IProxy proxy;
+    private static IProxy PROXY;
 
     // The update manager
     private UpdateManager updateManager = new UpdateManager(true);
@@ -72,7 +72,9 @@ public class ExampleMod {
      */
     @EventHandler
     public void onFMLPreInitialization(FMLPreInitializationEvent event) {
-        proxy.preInit(event);
+        CONFIGURATION.register(Settings.class);
+        CONFIGURATION.associate();
+        PROXY.preInit(event);
     }
 
     /**
@@ -84,7 +86,7 @@ public class ExampleMod {
      */
     @EventHandler
     public void onFMLInitialization(FMLInitializationEvent event) {
-        proxy.init(event);
+        PROXY.init(event);
     }
 
     /**
@@ -96,21 +98,17 @@ public class ExampleMod {
      */
     @EventHandler
     public void onFMLPostInitialization(FMLPostInitializationEvent event) {
-        proxy.postInit(event);
-    }
-
-    @EventHandler
-    public void onFMLServerStarting(FMLServerStartingEvent event) {
-        proxy.serverStarting(event);
+        PROXY.postInit(event);
     }
 
     /**
-     * The mod config
+     * Called after {@link FMLServerAboutToStartEvent} and before {@link FMLServerStartedEvent}.
      *
-     * @return The config file used to store all the mod data and HTTP caches if any
+     * @param event Forge's server-starting lifecycle event
      */
-    public Configuration getConfig() {
-        return config;
+    @EventHandler
+    public void onFMLServerStarting(FMLServerStartingEvent event) {
+        PROXY.serverStarting(event);
     }
 
     /**
@@ -122,6 +120,10 @@ public class ExampleMod {
         return updateManager;
     }
 
+    /**
+     * Returns the mod version checker
+     * @return The mod's version checker
+     */
     public VersionChecker getChecker() {
         return checker;
     }

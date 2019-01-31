@@ -23,7 +23,9 @@ import java.util.concurrent.Executors;
  */
 public class Multithreading {
 
-    // The executor service, which uses a thread pool of 50 threads
+    /**
+     * The executor service, which uses a thread pool of 50 threads
+     */
     private static final ExecutorService SERVICE = Executors.newFixedThreadPool(50, Thread::new);
 
     /**
